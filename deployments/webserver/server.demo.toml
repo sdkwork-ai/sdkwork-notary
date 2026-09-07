@@ -1,0 +1,13 @@
+environment = "demo"
+
+[http]
+
+[[http.server]]
+listen = ["80"]
+serverName = ["notary-demo.sdkwork.com", "notary-demo.birdcoder.com", "notary-demo.dtupay.com", "notary-demo.noaper.com", "notary-demo.sdkwork.cn", "notary-demo.birdcoder.cn", "notary-demo.dtupay.cn", "notary-demo.noaper.cn", "notary-demo.skubc.com", "notary-demo.skubc.cn", "notary-demo.zowalk.com", "notary-demo.zowalk.cn", "notary-demo.offer86.com", "notary-demo.offer86.cn", "notary-demo.86offer.com", "notary-demo.86offer.cn", "notary-admin-demo.sdkwork.com", "notary-admin-demo.birdcoder.com", "notary-admin-demo.dtupay.com", "notary-admin-demo.noaper.com", "notary-admin-demo.sdkwork.cn", "notary-admin-demo.birdcoder.cn", "notary-admin-demo.dtupay.cn", "notary-admin-demo.noaper.cn", "notary-admin-demo.skubc.com", "notary-admin-demo.skubc.cn", "notary-admin-demo.zowalk.com", "notary-admin-demo.zowalk.cn", "notary-admin-demo.offer86.com", "notary-admin-demo.offer86.cn", "notary-admin-demo.86offer.com", "notary-admin-demo.86offer.cn"]
+include = ["snippets/adaptive-web.named-locations.conf", "snippets/gateway-api-locations.nonproduction.conf"]
+
+[[http.server.location]]
+match = "/"
+include = ["snippets/adaptive-web.dispatch.conf"]
+

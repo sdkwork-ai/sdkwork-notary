@@ -5,5 +5,9 @@ environment = "staging"
 [[http.server]]
 listen = ["80"]
 serverName = ["notary-staging.sdkwork.com", "notary-staging.birdcoder.com", "notary-staging.dtupay.com", "notary-staging.noaper.com", "notary-staging.sdkwork.cn", "notary-staging.birdcoder.cn", "notary-staging.dtupay.cn", "notary-staging.noaper.cn", "notary-staging.skubc.com", "notary-staging.skubc.cn", "notary-staging.zowalk.com", "notary-staging.zowalk.cn", "notary-staging.offer86.com", "notary-staging.offer86.cn", "notary-staging.86offer.com", "notary-staging.86offer.cn", "notary-admin-staging.sdkwork.com", "notary-admin-staging.birdcoder.com", "notary-admin-staging.dtupay.com", "notary-admin-staging.noaper.com", "notary-admin-staging.sdkwork.cn", "notary-admin-staging.birdcoder.cn", "notary-admin-staging.dtupay.cn", "notary-admin-staging.noaper.cn", "notary-admin-staging.skubc.com", "notary-admin-staging.skubc.cn", "notary-admin-staging.zowalk.com", "notary-admin-staging.zowalk.cn", "notary-admin-staging.offer86.com", "notary-admin-staging.offer86.cn", "notary-admin-staging.86offer.com", "notary-admin-staging.86offer.cn"]
-include = ["snippets/gateway-locations.nonproduction.conf"]
+include = ["snippets/adaptive-web.named-locations.conf", "snippets/gateway-api-locations.nonproduction.conf"]
+
+[[http.server.location]]
+match = "/"
+include = ["snippets/adaptive-web.dispatch.conf"]
 

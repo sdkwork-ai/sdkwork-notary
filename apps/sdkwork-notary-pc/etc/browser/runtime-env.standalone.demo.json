@@ -1,0 +1,19 @@
+{
+  "environment": "demo",
+  "deploymentProfile": "standalone",
+  "profileId": "standalone.demo",
+  "runtimeTarget": "browser",
+  "browserOriginMode": "same-origin",
+  "profile": "development",
+  "appSdkBaseUrl": "/",
+  "featureFlags": {
+    "notaryPcDashboard": true
+  },
+  "appApiBaseUrl": "/",
+  "backendApiBaseUrl": "/",
+  "driveAppApiBaseUrl": "/",
+  "appbaseAppApiBaseUrl": "/",
+  "deployAppApiBaseUrl": "/",
+  "openApiBaseUrl": "/",
+  "sdkBaseUrl": "/"
+}
