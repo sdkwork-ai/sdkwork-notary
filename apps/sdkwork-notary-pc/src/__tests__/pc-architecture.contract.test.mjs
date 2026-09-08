@@ -126,7 +126,8 @@ test('notary pc backend-admin uses the backend SDK surface and isolated packages
   assert(app.includes('<AdminSurface />'));
   assert(adminSurface.includes('resolveEnvironment().backendApiBaseUrl'));
   assert(environment.includes('VITE_SDKWORK_NOTARY_APPLICATION_BACKEND_HTTP_URL'));
-  assert(environment.includes("backendApiBaseUrl: 'http://127.0.0.1:18086'"));
+  assert(environment.includes('@sdkwork/sdk-common'));
+  assert(environment.includes('resolveBaseUrl()'));
   assert(adminCore.includes("from '@sdkwork/notary-backend-sdk'"));
   assert(adminCore.includes('getNotaryPcGlobalTokenManager()'));
   assert(adminRoutes.includes("import('@sdkwork/notary-pc-admin-merchandise')"));

@@ -1,4 +1,5 @@
 import { isBlank } from '@sdkwork/utils/string';
+import { resolveBaseUrl } from '@sdkwork/sdk-common';
 
 export interface NotaryPcEnvironment {
   apiBaseUrl: string;
@@ -29,16 +30,20 @@ export function resolveEnvironment(): NotaryPcEnvironment {
         'Notary PC runtime config requires public and backend API base URLs. Configure VITE_SDKWORK_NOTARY_APPLICATION_PUBLIC_HTTP_URL and VITE_SDKWORK_NOTARY_APPLICATION_BACKEND_HTTP_URL, or use VITE_SDKWORK_NOTARY_PLATFORM_API_GATEWAY_HTTP_URL for a shared gateway.',
       );
     }
+    // Resolve the shared SDKWORK_API_BASE_URL through @sdkwork/sdk-common
+    // (env + brand + protocol aware), eliminating the hardcoded localhost
+    // defaults.
+    const resolvedOrigin = resolveBaseUrl().url;
     return {
-      apiBaseUrl: 'http://127.0.0.1:18085',
-      backendApiBaseUrl: 'http://127.0.0.1:18086',
+      apiBaseUrl: resolvedOrigin,
+      backendApiBaseUrl: resolvedOrigin,
       profile: import.meta.env.MODE ?? 'development',
     };
   }
 
   return {
-    apiBaseUrl: defaultIfBlank(resolvedApiBaseUrl, 'http://127.0.0.1:18085'),
-    backendApiBaseUrl: defaultIfBlank(resolvedBackendApiBaseUrl, 'http://127.0.0.1:18086'),
+    apiBaseUrl: defaultIfBlank(resolvedApiBaseUrl, resolveBaseUrl().url),
+    backendApiBaseUrl: defaultIfBlank(resolvedBackendApiBaseUrl, resolveBaseUrl().url),
     profile: import.meta.env.MODE ?? 'development',
   };
 }
