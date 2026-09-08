@@ -1,4 +1,5 @@
 import { isBlank } from '@sdkwork/utils/string';
+import { resolveBaseUrl } from '@sdkwork/sdk-common';
 
 export interface NotaryH5Environment {
   apiBaseUrl: string;
@@ -16,20 +17,24 @@ export function resolveEnvironment(): NotaryH5Environment {
     ?? import.meta.env.VITE_SDKWORK_NOTARY_APP_HTTP_URL;
 
   const resolved = typeof apiBaseUrl === 'string' ? apiBaseUrl.trim() : '';
+  // Prefer an explicit Vite override; otherwise resolve the shared
+  // SDKWORK_API_BASE_URL through @sdkwork/sdk-common (env + brand + protocol
+  // aware), eliminating the hardcoded localhost default.
+  const fallbackBaseUrl = resolveBaseUrl().url;
   if (isBlank(resolved)) {
-    if (import.meta.env.PROD) {
+    if (import.meta.env.PROD && isBlank(fallbackBaseUrl)) {
       throw new Error(
         'Notary H5 runtime config is missing a public API base URL. Configure VITE_SDKWORK_NOTARY_APPLICATION_PUBLIC_HTTP_URL or VITE_SDKWORK_NOTARY_PLATFORM_API_GATEWAY_HTTP_URL.',
       );
     }
     return {
-      apiBaseUrl: 'http://127.0.0.1:18085',
+      apiBaseUrl: defaultIfBlank(fallbackBaseUrl, ''),
       profile: import.meta.env.MODE ?? 'development',
     };
   }
 
   return {
-    apiBaseUrl: defaultIfBlank(resolved, 'http://127.0.0.1:18085'),
+    apiBaseUrl: defaultIfBlank(resolved, fallbackBaseUrl),
     profile: import.meta.env.MODE ?? 'development',
   };
 }
