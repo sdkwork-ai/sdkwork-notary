@@ -1,5 +1,5 @@
 import { isBlank } from '@sdkwork/utils/string';
-import { resolveBaseUrl } from '@sdkwork/sdk-common';
+import {resolveBaseUrlWithAlignProtocol} from '@sdkwork/sdk-common';
 
 export interface NotaryH5Environment {
   apiBaseUrl: string;
@@ -20,7 +20,7 @@ export function resolveEnvironment(): NotaryH5Environment {
   // Prefer an explicit Vite override; otherwise resolve the shared
   // SDKWORK_API_BASE_URL through @sdkwork/sdk-common (env + brand + protocol
   // aware), eliminating the hardcoded localhost default.
-  const fallbackBaseUrl = resolveBaseUrl().url;
+  const fallbackBaseUrl = resolveBaseUrlWithAlignProtocol().url;
   if (isBlank(resolved)) {
     if (import.meta.env.PROD && isBlank(fallbackBaseUrl)) {
       throw new Error(

@@ -1,5 +1,5 @@
 import { isBlank } from '@sdkwork/utils/string';
-import { resolveBaseUrl } from '@sdkwork/sdk-common';
+import {resolveBaseUrlWithAlignProtocol} from '@sdkwork/sdk-common';
 
 export interface NotaryPcEnvironment {
   apiBaseUrl: string;
@@ -33,7 +33,7 @@ export function resolveEnvironment(): NotaryPcEnvironment {
     // Resolve the shared SDKWORK_API_BASE_URL through @sdkwork/sdk-common
     // (env + brand + protocol aware), eliminating the hardcoded localhost
     // defaults.
-    const resolvedOrigin = resolveBaseUrl().url;
+    const resolvedOrigin = resolveBaseUrlWithAlignProtocol().url;
     return {
       apiBaseUrl: resolvedOrigin,
       backendApiBaseUrl: resolvedOrigin,
@@ -42,8 +42,8 @@ export function resolveEnvironment(): NotaryPcEnvironment {
   }
 
   return {
-    apiBaseUrl: defaultIfBlank(resolvedApiBaseUrl, resolveBaseUrl().url),
-    backendApiBaseUrl: defaultIfBlank(resolvedBackendApiBaseUrl, resolveBaseUrl().url),
+    apiBaseUrl: defaultIfBlank(resolvedApiBaseUrl, resolveBaseUrlWithAlignProtocol().url),
+    backendApiBaseUrl: defaultIfBlank(resolvedBackendApiBaseUrl, resolveBaseUrlWithAlignProtocol().url),
     profile: import.meta.env.MODE ?? 'development',
   };
 }
