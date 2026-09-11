@@ -1,10 +1,14 @@
 [package]
+rust-version.workspace = true
 name = "sdkwork-notary-embedded-bootstrap"
 edition.workspace = true
 license.workspace = true
 version.workspace = true
 description = "Embedded notary application bootstrap for platform runtime consumers."
 
+
+[lints]
+workspace = true
 [lib]
 name = "sdkwork_notary_embedded_bootstrap"
 path = "src/lib.rs"

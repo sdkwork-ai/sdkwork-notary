@@ -1,9 +1,13 @@
 [package]
+rust-version.workspace = true
 name = "sdkwork-notary-case-service"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
 
+
+[lints]
+workspace = true
 [lib]
 name = "sdkwork_notary_case_service"
 

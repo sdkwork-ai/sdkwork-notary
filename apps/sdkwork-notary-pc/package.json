@@ -6,7 +6,7 @@
   "packageManager": "pnpm@10.33.0",
   "description": "SDKWork Notary PC browser application.",
   "scripts": {
-    "dev": "node ../../../sdkwork-iam/scripts/dev/run-pc-renderer-dev-with-bootstrap.mjs -- vite",
+    "dev": "pnpm dev:standalone",
     "build": "vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
@@ -20,7 +20,13 @@
     "build:test:cloud": "node ../../../sdkwork-specs/tools/build-browser-client.mjs --app-root . --environment test --deployment-profile cloud",
     "build:staging:cloud": "node ../../../sdkwork-specs/tools/build-browser-client.mjs --app-root . --environment staging --deployment-profile cloud",
     "build:demo:cloud": "node ../../../sdkwork-specs/tools/build-browser-client.mjs --app-root . --environment demo --deployment-profile cloud",
-    "build:prod:cloud": "node ../../../sdkwork-specs/tools/build-browser-client.mjs --app-root . --environment prod --deployment-profile cloud"
+    "build:prod:cloud": "node ../../../sdkwork-specs/tools/build-browser-client.mjs --app-root . --environment prod --deployment-profile cloud",
+    "dev:standalone": "pnpm exec sdkwork-app dev --root ../.. --deployment-profile standalone",
+    "dev:cloud": "pnpm exec sdkwork-app dev --root ../.. --deployment-profile cloud",
+    "stop": "pnpm exec sdkwork-app stop --root ../..",
+    "check": "pnpm typecheck && pnpm test && pnpm build",
+    "verify": "pnpm check",
+    "clean": "node -e \"require('node:fs').rmSync('dist',{recursive:true,force:true})\""
   },
   "dependencies": {
     "@sdkwork/auth-pc-react": "workspace:*",
