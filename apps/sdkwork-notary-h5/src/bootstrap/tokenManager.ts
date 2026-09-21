@@ -1,3 +1,4 @@
+import { readBootstrapAccessTokenFromProcessEnv } from '@sdkwork/iam-credential-entry';
 import {
   createTokenManager,
   type AuthTokenManager,
@@ -15,9 +16,17 @@ const REFRESH_TOKEN_KEY = 'sdkwork.refreshToken';
 
 let tokenManager: AuthTokenManager | null = null;
 
+/**
+ * Private bootstrap Access-Token fallback (`APP_SDK_INTEGRATION_SPEC.md` §4).
+ *
+ * Delegates to the shared IAM credential-entry reader instead of reading
+ * `globalThis.process.env.SDKWORK_ACCESS_TOKEN` locally: the shared reader is
+ * the only sanctioned consumer of the private bootstrap artifact, because it
+ * also honours the dev-server handoff that the IAM Vite plugin injects
+ * (`IAM_CREDENTIAL_ENTRY_SPEC.md` §2/§5).
+ */
 function readDevBootstrapAccessToken(): string | undefined {
-  const nodeProcess = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process;
-  const value = (nodeProcess?.env?.SDKWORK_ACCESS_TOKEN ?? '').trim();
+  const value = (readBootstrapAccessTokenFromProcessEnv() ?? '').trim();
   return value.length > 0 ? value : undefined;
 }
 

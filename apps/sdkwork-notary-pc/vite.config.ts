@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv } from 'vite';
+import { createSdkworkCredentialEntryBootstrapVitePlugin } from '@sdkwork/iam-credential-entry/vite';
 
 const pcRoot = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(pcRoot, '../..');
@@ -27,11 +28,20 @@ const generatedAppbaseAppSdkEntry = path.resolve(
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, pcRoot, '');
 
+  const bootstrapAccessToken = env.SDKWORK_ACCESS_TOKEN ?? process.env.SDKWORK_ACCESS_TOKEN;
   return {
-    plugins: [react()],
-    define: {
-      'process.env.SDKWORK_ACCESS_TOKEN': JSON.stringify(env.SDKWORK_ACCESS_TOKEN ?? ''),
-    },
+    plugins: [
+      // The bootstrap credential reaches the renderer only through the shared IAM
+      // plugin (dev-server HTML injection as
+      // `globalThis.__SDKWORK_CREDENTIAL_ENTRY_BOOTSTRAP_ACCESS_TOKEN__`).
+      // `define['process.env.SDKWORK_ACCESS_TOKEN']` is NOT a valid handoff
+      // (IAM_CREDENTIAL_ENTRY_SPEC.md section 4/5).
+      createSdkworkCredentialEntryBootstrapVitePlugin({
+        accessToken: bootstrapAccessToken,
+        environment: resolveViteEnvironment(mode, process.env),
+      }),
+      react(),
+    ],
     resolve: {
       alias: [
         { find: '@sdkwork/notary-pc-core', replacement: path.resolve(pcRoot, 'packages/sdkwork-notary-pc-core/src/index.ts') },

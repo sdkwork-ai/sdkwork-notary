@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@sdkwork/auth-pc-react": "workspace:*",
+    "@sdkwork/iam-credential-entry": "workspace:*",
     "@sdkwork/notary-pc-admin-core": "workspace:*",
     "@sdkwork/notary-pc-admin-shell": "workspace:*",
     "@sdkwork/notary-pc-commons": "workspace:*",
