@@ -40,6 +40,7 @@ tokio = { version = "1.48", features = ["macros", "rt-multi-thread"] }
 sdkwork-web-bootstrap = { path = "../sdkwork-web-framework/crates/sdkwork-web-bootstrap" }
 sdkwork-api-notary-assembly = { path = "crates/sdkwork-api-notary-assembly" }
 sdkwork-drive-workspace-service = { path = "../sdkwork-drive/crates/sdkwork-drive-workspace-service" }
+sdkwork-commerce-money = { path = "../sdkwork-merchandise/crates/sdkwork-commerce-money" }
 sdkwork-merchandise-repository-sqlx = { path = "../sdkwork-merchandise/crates/sdkwork-merchandise-repository-sqlx", package = "sdkwork-merchandise-repository-sqlx" }
 sdkwork-merchandise-service = { path = "../sdkwork-merchandise/crates/sdkwork-merchandise-service", package = "sdkwork-merchandise-service" }
 sdkwork-order-service = { path = "../sdkwork-order/crates/sdkwork-order-service" }

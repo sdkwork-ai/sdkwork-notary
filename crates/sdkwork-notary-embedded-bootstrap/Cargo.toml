@@ -18,6 +18,7 @@ async-trait = "0.1.89"
 axum.workspace = true
 dotenvy = "0.15"
 sdkwork-contract-service = { workspace = true }
+sdkwork-commerce-money = { workspace = true }
 sdkwork-merchandise-repository-sqlx = { workspace = true }
 sdkwork-merchandise-service = { workspace = true }
 sdkwork-order-repository-sqlx = { workspace = true }
