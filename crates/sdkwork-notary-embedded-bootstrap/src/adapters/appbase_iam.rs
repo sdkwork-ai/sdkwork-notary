@@ -74,8 +74,6 @@ impl AppbasePort for IamSqlxAppbasePort {
     }
 }
 
-
-
 async fn load_member_postgres(
     pool: &sqlx::PgPool,
     organization_id: &str,
@@ -229,7 +227,6 @@ fn build_member(profile: MemberProfile, development_mode: bool) -> AppbaseOrgani
     }
 }
 
-
 async fn load_roles_postgres(
     pool: &sqlx::PgPool,
     tenant_id: &str,
@@ -250,7 +247,6 @@ async fn load_roles_postgres(
         .filter_map(|row| row.try_get::<String, _>("code").ok())
         .collect())
 }
-
 
 async fn load_positions_postgres(
     pool: &sqlx::PgPool,
@@ -273,7 +269,6 @@ async fn load_positions_postgres(
         .collect())
 }
 
-
 async fn load_departments_postgres(
     pool: &sqlx::PgPool,
     tenant_id: &str,
@@ -294,7 +289,6 @@ async fn load_departments_postgres(
         .filter_map(|row| row.try_get::<String, _>("name").ok())
         .collect())
 }
-
 
 async fn list_notary_staff_page_postgres(
     pool: &sqlx::PgPool,
