@@ -17,7 +17,7 @@ test('declares sdkwork-utils workspace dependency and release checkout', () => {
   const rootCargo = read('Cargo.toml');
   assert.match(rootCargo, /sdkwork-utils-rust = \{/);
 
-  const workflow = readJson('sdkwork.workflow.json');
+  const workflow = readJson('agent.workflow.json');
   const dependencyIds = new Set((workflow.dependencies ?? []).map((dependency) => dependency.id));
   assert.equal(dependencyIds.has('sdkwork-utils'), true);
   assert.equal(dependencyIds.has('sdkwork-app-topology'), true);

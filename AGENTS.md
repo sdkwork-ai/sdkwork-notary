@@ -42,7 +42,7 @@ Read `agent.app.config.json` when changing application identity, release metadat
 - `sdks/`: SDK families, route manifests, composed facades, and contract tests.
 - `crates/`: Rust contract, service, repository, and route crates.
 - `agent.app.config.json`: SDKWork application identity manifest.
-- `sdkwork.workflow.json`: release and packaging workflow for domain library verification.
+- `agent.workflow.json`: release and packaging workflow for domain library verification.
 - `package.json` / `Cargo.toml`: workspace manifests.
 
 ## Documentation Canon
@@ -378,7 +378,7 @@ Sibling SDKWork repositories are consumed through a dual-track model that MUST s
   `../sdkwork-*` relative path, and consumed with `workspace:*` in `package.json`. Never use
   `file:`/`link:`/git-URL specifiers for SDKWork sibling packages in any environment.
 - **CI / release packaging**: git-repository dependency checkout. Every sibling referenced by the
-  local workspace MUST have a matching `dependencies[]` entry in `sdkwork.workflow.json` so CI
+  local workspace MUST have a matching `dependencies[]` entry in `agent.workflow.json` so CI
   clones the sibling into the same `../sdkwork-*` relative layout (`GITHUB_WORKFLOW_SPEC.md`).
   `package.json` is never rewritten for CI.
 

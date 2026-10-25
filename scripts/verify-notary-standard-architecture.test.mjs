@@ -29,7 +29,7 @@ const REQUIRED_WORKSPACE_FILES = [
   'GEMINI.md',
   'README.md',
   'Cargo.toml',
-  'sdkwork.workflow.json',
+  'agent.workflow.json',
   '.github/workflows/package.yml',
   '.sdkwork/README.md',
   '.sdkwork/.gitignore',
@@ -89,7 +89,7 @@ test('declares workspace agent entrypoints and packaging workflow', () => {
     assert.equal(exists(file), true, `${file} should exist`);
   }
 
-  const workflow = readJson('sdkwork.workflow.json');
+  const workflow = readJson('agent.workflow.json');
   assert.equal(workflow.app.id, 'sdkwork-notary');
   assert.equal(workflow.app.configPath, 'agent.app.config.json');
 });
@@ -143,7 +143,7 @@ test('integrates sdkwork-utils-rust for shared datetime and crypto helpers', () 
   const rootCargo = read('Cargo.toml');
   assert.match(rootCargo, /sdkwork-utils-rust/);
 
-  const workflow = readJson('sdkwork.workflow.json');
+  const workflow = readJson('agent.workflow.json');
   const dependencyIds = new Set((workflow.dependencies ?? []).map((dependency) => dependency.id));
   assert.equal(dependencyIds.has('sdkwork-utils'), true);
 

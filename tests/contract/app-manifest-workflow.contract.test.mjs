@@ -33,7 +33,7 @@ test('H5 manifest describes the mobile client identity', () => {
 });
 
 test('workflow config points at the root manifest and declares topology dependency', () => {
-  const workflow = readJson('sdkwork.workflow.json');
+  const workflow = readJson('agent.workflow.json');
   assert.equal(workflow.app.configPath, 'agent.app.config.json');
   const dependencyIds = new Set((workflow.dependencies ?? []).map((dependency) => dependency.id));
   assert.equal(dependencyIds.has('sdkwork-app-topology'), true);
