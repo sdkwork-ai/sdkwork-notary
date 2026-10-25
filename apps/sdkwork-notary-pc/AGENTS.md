@@ -23,15 +23,15 @@ Do not copy root standard text into this application root. If these relative pat
 ## Application Identity
 
 - App key: `sdkwork-notary-pc`
-- Manifest: `sdkwork.app.config.json`
+- Manifest: `agent.app.config.json`
 - Domain library owner: repository root `sdkwork-notary`
 
-Read `sdkwork.app.config.json` only when changing PC application behavior, runtime config, SDK wiring, release metadata, packaging, or app-owned capabilities.
+Read `agent.app.config.json` only when changing PC application behavior, runtime config, SDK wiring, release metadata, packaging, or app-owned capabilities.
 
 ## Local Dictionary Structure
 
 - `AGENTS.md`: local application agent entrypoint and relative SDKWork spec index.
-- `sdkwork.app.config.json`: PC application identity and release metadata.
+- `agent.app.config.json`: PC application identity and release metadata.
 - `packages/`: PC React package family (`sdkwork-notary-pc-*`).
 - `src/`: thin PC bootstrap, AuthGate, route assembly, and browser shell entry.
 - `package.json`: app-surface command manifest; public command names follow `PNPM_SCRIPT_SPEC.md`.
@@ -41,7 +41,7 @@ Read `sdkwork.app.config.json` only when changing PC application behavior, runti
 Use dynamic progressive loading:
 
 1. Read this `AGENTS.md` and any nearer component-level `AGENTS.md`.
-2. Read `sdkwork.app.config.json` only when app behavior, runtime config, SDK wiring, release, or package identity is touched.
+2. Read `agent.app.config.json` only when app behavior, runtime config, SDK wiring, release, or package identity is touched.
 3. Read local `specs/README.md` and `specs/component.spec.json` only when local contracts are relevant.
 4. Read `../../../sdkwork-specs/README.md`, then only the task-specific root specs.
 5. Inspect implementation files after the relevant standards are clear.

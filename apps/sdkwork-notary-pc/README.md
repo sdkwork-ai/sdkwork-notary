@@ -3,7 +3,7 @@
 Application: `sdkwork-notary-pc`
 Runtime: PC browser renderer
 Status: active
-Manifest: `sdkwork.app.config.json`
+Manifest: `agent.app.config.json`
 
 ## Surfaces
 

@@ -23,16 +23,16 @@ Do not copy root standard text into this application root. If these relative pat
 ## Application Identity
 
 - App key: `sdkwork-notary-h5`
-- Manifest: `sdkwork.app.config.json`
+- Manifest: `agent.app.config.json`
 - Domain library owner: repository root `sdkwork-notary`
 
-Read `sdkwork.app.config.json` only when changing H5 application behavior, runtime config, SDK wiring, release metadata, packaging, or app-owned capabilities.
+Read `agent.app.config.json` only when changing H5 application behavior, runtime config, SDK wiring, release metadata, packaging, or app-owned capabilities.
 
 ## Local Dictionary Structure
 
 - `AGENTS.md`: local application agent entrypoint and relative SDKWork spec index.
 - `CLAUDE.md`, `GEMINI.md`, `CODEX.md`: compatibility shims that point to `AGENTS.md` and must not duplicate rules.
-- `sdkwork.app.config.json`: H5 application identity and release metadata.
+- `agent.app.config.json`: H5 application identity and release metadata.
 - `.sdkwork/`: application dictionary for local skills, plugins, manifests, and AI workspace metadata.
 - `packages/`: H5 mobile React package family (`sdkwork-notary-h5-*`).
 - `src/`: thin H5 bootstrap, AuthGate, route assembly, and mobile shell entry.
@@ -43,7 +43,7 @@ Read `sdkwork.app.config.json` only when changing H5 application behavior, runti
 Use dynamic progressive loading:
 
 1. Read this `AGENTS.md` and any nearer component-level `AGENTS.md`.
-2. Read `sdkwork.app.config.json` only when app behavior, runtime config, SDK wiring, release, or package identity is touched.
+2. Read `agent.app.config.json` only when app behavior, runtime config, SDK wiring, release, or package identity is touched.
 3. Read local `specs/README.md` and `specs/component.spec.json` only when local contracts are relevant.
 4. Read local `.sdkwork/README.md`, `.sdkwork/skills/`, and `.sdkwork/plugins/` only when local agent extensions are relevant.
 5. Read `../../../sdkwork-specs/README.md`, then only the task-specific root specs.

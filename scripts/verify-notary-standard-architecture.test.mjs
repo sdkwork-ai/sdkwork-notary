@@ -91,7 +91,7 @@ test('declares workspace agent entrypoints and packaging workflow', () => {
 
   const workflow = readJson('sdkwork.workflow.json');
   assert.equal(workflow.app.id, 'sdkwork-notary');
-  assert.equal(workflow.app.configPath, 'sdkwork.app.config.json');
+  assert.equal(workflow.app.configPath, 'agent.app.config.json');
 });
 
 test('declares author-owned API contracts under apis/', () => {
@@ -271,12 +271,12 @@ test('declares SDKWORK workspace config and test skeleton directories', () => {
   }
 });
 
-test('domain library root declares sdkwork.app.config.json', () => {
-  assert.equal(exists('sdkwork.app.config.json'), true);
+test('domain library root declares agent.app.config.json', () => {
+  assert.equal(exists('agent.app.config.json'), true);
 
-  const manifest = readJson('sdkwork.app.config.json');
+  const manifest = readJson('agent.app.config.json');
   assert.equal(manifest.schemaVersion, 3);
-  assert.equal(manifest.kind, 'sdkwork.app');
+  assert.equal(manifest.kind, 'agent.app');
   assert.equal(manifest.app.key, 'sdkwork-notary');
   assert.equal(manifest.runtime.family, 'library');
   assert.equal(manifest.devApp.sourceRoot, 'apps/sdkwork-notary-h5');

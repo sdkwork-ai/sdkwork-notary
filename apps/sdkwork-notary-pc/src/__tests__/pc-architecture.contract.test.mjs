@@ -23,7 +23,7 @@ function listPackageNames() {
 
 const REQUIRED_LAYOUT_PATHS = [
   'AGENTS.md',
-  'sdkwork.app.config.json',
+  'agent.app.config.json',
   '.sdkwork/README.md',
   '.sdkwork/skills/README.md',
   '.sdkwork/plugins/README.md',
@@ -91,9 +91,9 @@ test('notary pc root follows APP_PC_ARCHITECTURE_SPEC layout', () => {
     assert.equal(existsSync(path.join(appRoot, relativePath)), true, `missing ${relativePath}`);
   }
 
-  const manifest = readJson('sdkwork.app.config.json');
+  const manifest = readJson('agent.app.config.json');
   assert.equal(manifest.schemaVersion, 3);
-  assert.equal(manifest.kind, 'sdkwork.app');
+  assert.equal(manifest.kind, 'agent.app');
   assert.equal(manifest.app.key, 'sdkwork-notary-pc');
   assert.equal(manifest.runtime.family, 'pc');
   assert.equal(manifest.runtime.framework, 'react-pc');

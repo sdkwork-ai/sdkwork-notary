@@ -1,24 +1,24 @@
 {
   "schemaVersion": 3,
-  "kind": "sdkwork.app",
+  "kind": "agent.app",
   "app": {
-    "key": "sdkwork-notary",
-    "name": "SDKWork Notary",
-    "displayName": "SDKWork Notary",
-    "description": "SDKWork Notary SDKWork application.",
+    "key": "sdkwork-notary-pc",
+    "name": "SDKWork Notary PC",
+    "displayName": "SDKWork Notary PC",
+    "description": "Large-screen PC browser client for SDKWork Notary.",
     "vendor": "SDKWork",
     "officialWebsiteUrl": "https://sdkwork.com/apps/sdkwork-notary",
     "supportUrl": "https://sdkwork.com/support",
     "privacyPolicyUrl": "https://sdkwork.com/privacy",
     "termsOfServiceUrl": "https://sdkwork.com/terms",
     "iconUrl": "https://cdn.sdkwork.com/apps/sdkwork-notary/assets/icon-1024.png",
-    "appType": "SDK",
+    "appType": "APP_REACT",
     "versionSource": "package.json",
     "identifiers": {
-      "packageName": null,
-      "bundleId": null,
-      "desktopAppId": "com.sdkwork.sdkwork.models.desktop",
-      "containerImage": "registry.sdkwork.com/apps/sdkwork-notary"
+      "packageName": "com.sdkwork.notary.pc",
+      "bundleId": "com.sdkwork.notary.pc",
+      "desktopAppId": null,
+      "containerImage": null
     }
   },
   "backend": {
@@ -40,29 +40,27 @@
     ]
   },
   "runtime": {
-    "family": "library",
-    "framework": "rust-domain-library",
+    "family": "server",
+    "framework": "react-pc",
     "runtimes": [
-      "LIBRARY"
+      "BROWSER"
     ],
     "deliveryModes": [
-      "DIRECT_DOWNLOAD"
+      "browser"
     ],
-    "defaultPlatform": "LIBRARY",
-    "defaultArchitecture": "noarch",
     "supportedDeploymentProfiles": [
-      "cloud",
-      "standalone"
+      "standalone",
+      "cloud"
     ],
     "defaultDeploymentProfile": "standalone"
   },
   "media": {
     "icons": {
       "primary": {
-        "id": "sdkwork-notary-primary-icon",
+        "id": "sdkwork-notary-pc-primary-icon",
         "type": "ICON",
         "purpose": "PRIMARY",
-        "url": "https://cdn.sdkwork.com/apps/sdkwork-notary/assets/icon-1024.png",
+        "url": "https://cdn.sdkwork.com/apps/sdkwork-notary-pc/assets/icon-1024.png",
         "platform": "APP",
         "locale": "en-US",
         "width": 1024,
@@ -83,10 +81,10 @@
     },
     "screenshots": [
       {
-        "id": "sdkwork-notary-web-screenshot",
+        "id": "sdkwork-notary-pc-web-screenshot",
         "type": "SCREENSHOT",
         "purpose": "CATALOG_SCREENSHOT",
-        "url": "https://cdn.sdkwork.com/apps/sdkwork-notary/media/web-screenshot.png",
+        "url": "https://cdn.sdkwork.com/apps/sdkwork-notary-pc/media/web-screenshot.png",
         "platform": "WEB",
         "locale": "en-US",
         "deviceClass": "BROWSER",
@@ -96,21 +94,21 @@
         "format": "PNG",
         "fileSizeBytes": 1048576,
         "alphaChannel": false,
-        "caption": "SDKWork Notary product screenshot.",
+        "caption": "SDKWork Notary PC product screenshot.",
         "sortOrder": 0,
         "enabled": true,
         "metadata": {
           "generatedPlaceholder": true,
-          "altText": "SDKWork Notary app screenshot."
+          "altText": "SDKWork Notary PC app screenshot."
         }
       }
     ],
     "previews": [
       {
-        "id": "sdkwork-notary-catalog-preview",
+        "id": "sdkwork-notary-pc-catalog-preview",
         "type": "PREVIEW_IMAGE",
         "purpose": "CATALOG_PREVIEW",
-        "url": "https://cdn.sdkwork.com/apps/sdkwork-notary/media/preview-cover.png",
+        "url": "https://cdn.sdkwork.com/apps/sdkwork-notary-pc/media/preview-cover.png",
         "platform": "WEB",
         "locale": "en-US",
         "width": 1600,
@@ -118,12 +116,12 @@
         "format": "PNG",
         "fileSizeBytes": 786432,
         "alphaChannel": false,
-        "caption": "SDKWork Notary preview.",
+        "caption": "SDKWork Notary PC preview.",
         "sortOrder": 0,
         "enabled": true,
         "metadata": {
           "generatedPlaceholder": true,
-          "altText": "SDKWork Notary preview cover."
+          "altText": "SDKWork Notary PC preview cover."
         }
       }
     ],
@@ -134,68 +132,63 @@
   },
   "publish": {
     "status": "ACTIVE",
+    "platforms": [
+      "WEB"
+    ],
+    "installPlatforms": [
+      "WEB"
+    ],
+    "defaultPackageId": "linux-x64-standalone-server-tar-gz",
     "installSkill": {
       "name": "sdkwork-skills-app"
     },
-    "platforms": [],
-    "installPlatforms": [],
-    "defaultPackageId": "test-noarch-standalone-library-contracts-tar-gz",
-    "storeUrl": "https://sdkwork.com/apps/sdkwork-notary",
     "stores": [],
-    "config": {
-      "workspaceRoot": ".",
-      "framework": "rust-domain-library",
-      "managedBy": "apps/scripts/initialize-sdkwork-app-standard-v3.mjs"
-    }
+    "storeUrl": "https://sdkwork.com/apps/sdkwork-notary-pc"
   },
   "artifacts": {
     "installConfig": {
-      "defaultPackageId": "test-noarch-standalone-library-contracts-tar-gz",
-      "installCommand": "sdkwork install sdkwork-notary",
-      "launchCommand": "sdkwork open sdkwork-notary",
-      "uninstallCommand": "sdkwork uninstall sdkwork-notary",
+      "defaultPackageId": "linux-x64-standalone-server-tar-gz",
+      "installCommand": "sdkwork install sdkwork-notary-pc",
+      "launchCommand": "sdkwork open sdkwork-notary-pc",
+      "uninstallCommand": "sdkwork uninstall sdkwork-notary-pc",
       "packages": [
         {
-          "id": "test-noarch-standalone-library-contracts-tar-gz",
-          "name": "SDKWork Notary Domain Library Contracts",
+          "id": "linux-x64-standalone-server-tar-gz",
+          "name": "Sdkwork Notary Pc standalone server archive",
           "sourceType": "BINARY_URL",
           "packageFormat": "TAR_GZ",
           "platform": "API",
-          "url": "https://cdn.sdkwork.com/apps/sdkwork-notary/STABLE/0.1.0/library/contracts.tar.gz",
+          "url": "https://cdn.sdkwork.com/apps/sdkwork-notary-pc/STABLE/0.1.0/linux-x64-standalone-server-tar-gz-0.1.0.tar.gz",
+          "architecture": "x64",
+          "checksumAlgorithm": "SHA-256",
+          "checksum": "38194f6f1452f7f12c27873a6b612c969c9167b28ec927dc54556198930c23a2",
+          "deploymentProfile": "standalone",
+          "runtimeTarget": "server",
+          "profileBinding": "fixed",
           "enabled": true,
           "metadata": {
-            "kind": "domain-library"
-          },
-          "checksumAlgorithm": "SHA-256",
-          "checksum": "aa1d45e0aa1d45e0aa1d45e0aa1d45e0aa1d45e0aa1d45e0aa1d45e0aa1d45e0",
-          "architecture": "noarch",
-          "deploymentProfile": "standalone",
-          "runtimeTarget": "test-runner",
-          "profileBinding": "fixed"
+            "releaseBuildDeferred": false
+          }
         },
         {
           "id": "linux-x64-cloud-server-tar-gz",
-          "name": "Sdkwork Notary cloud server archive",
+          "name": "Sdkwork Notary Pc cloud server archive",
           "sourceType": "BINARY_URL",
           "packageFormat": "TAR_GZ",
           "platform": "API",
-          "url": "https://cdn.sdkwork.com/apps/sdkwork-notary/STABLE/0.1.0/linux-x64-cloud-server-tar-gz-0.1.0.tar.gz",
+          "url": "https://cdn.sdkwork.com/apps/sdkwork-notary-pc/STABLE/0.1.0/linux-x64-cloud-server-tar-gz-0.1.0.tar.gz",
           "architecture": "x64",
           "checksumAlgorithm": "SHA-256",
-          "checksum": "86c7dec4c8f13ffa57ee36771a2be705a5d97d35160603f323a853465a68b9c7",
+          "checksum": "a73560b0a08dfa2350e930b57cbf2f184996661acaf48440259295a0fd23ff94",
           "deploymentProfile": "cloud",
           "runtimeTarget": "server",
           "profileBinding": "fixed",
           "enabled": true,
-          "metadata": {}
+          "metadata": {
+            "releaseBuildDeferred": false
+          }
         }
-      ],
-      "metadata": {
-        "workspaceRoot": ".",
-        "framework": "rust-domain-library",
-        "packageManager": "pnpm",
-        "migratedFromLegacyConfig": false
-      }
+      ]
     }
   },
   "release": {
@@ -208,16 +201,16 @@
       {
         "version": "0.1.0",
         "releaseChannel": "STABLE",
-        "title": "SDKWork Notary 0.1.0",
-        "summary": "SDKWork Notary initialized standard release.",
-        "content": "Initial SDKWork App Standard v3 manifest for SDKWork Notary.",
+        "title": "SDKWork Notary PC 0.1.0",
+        "summary": "SDKWork Notary PC initialized standard release.",
+        "content": "Initial SDKWork App Standard v3 manifest for SDKWork Notary PC.",
         "highlights": [
           "SDKWork App Standard v3 configuration initialized",
           "platform_app projection metadata standardized",
           "Download package matrix normalized"
         ],
         "packageIds": [
-          "test-noarch-standalone-library-contracts-tar-gz",
+          "linux-x64-standalone-server-tar-gz",
           "linux-x64-cloud-server-tar-gz"
         ],
         "publishedAt": "2026-05-07T00:00:00Z",
@@ -239,11 +232,10 @@
         "browser"
       ]
     },
-    "sourceRoot": "apps/sdkwork-notary-h5"
+    "sourceRoot": "apps/sdkwork-notary-pc"
   },
   "metadata": {
-    "standardOwner": "sdkwork-platform",
-    "initializedAt": "2026-05-07T00:00:00Z",
-    "deploymentConfig": "etc/sdkwork.deployment.config.json"
+    "deploymentConfig": "etc/sdkwork.deployment.config.json",
+    "standardOwner": "sdkwork-platform"
   }
 }

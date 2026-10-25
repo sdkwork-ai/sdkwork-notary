@@ -22,11 +22,11 @@ Do not copy root standard text into this repository. If these relative paths do 
 ## Application Identity
 
 - App key: `sdkwork-notary`
-- Manifest: `sdkwork.app.config.json`
+- Manifest: `agent.app.config.json`
 - Runtime family: `library` (contract-first domain library; host apps wire route layers)
 - Dev client surface: `apps/sdkwork-notary-h5`
 
-Read `sdkwork.app.config.json` when changing application identity, release metadata, runtime config, SDK wiring, or packaging behavior.
+Read `agent.app.config.json` when changing application identity, release metadata, runtime config, SDK wiring, or packaging behavior.
 
 ## Local Dictionary Structure
 
@@ -41,7 +41,7 @@ Read `sdkwork.app.config.json` when changing application identity, release metad
 - `generated/openapi/`: owner OpenAPI authority documents.
 - `sdks/`: SDK families, route manifests, composed facades, and contract tests.
 - `crates/`: Rust contract, service, repository, and route crates.
-- `sdkwork.app.config.json`: SDKWork application identity manifest.
+- `agent.app.config.json`: SDKWork application identity manifest.
 - `sdkwork.workflow.json`: release and packaging workflow for domain library verification.
 - `package.json` / `Cargo.toml`: workspace manifests.
 
@@ -56,7 +56,7 @@ Read `sdkwork.app.config.json` when changing application identity, release metad
 Use dynamic progressive loading:
 
 1. Read this `AGENTS.md` and any nearer component-level `AGENTS.md`.
-2. Read `sdkwork.app.config.json` only when app behavior, runtime config, SDK wiring, release, or packaging is touched.
+2. Read `agent.app.config.json` only when app behavior, runtime config, SDK wiring, release, or packaging is touched.
 3. Read local `specs/README.md` and `specs/component.spec.json` only when local contracts are relevant.
 4. Read `.sdkwork/README.md`, `.sdkwork/skills/`, and `.sdkwork/plugins/` only when local agent extensions are relevant.
 5. Read `../sdkwork-specs/README.md`, then only the task-specific root specs required by the current task.

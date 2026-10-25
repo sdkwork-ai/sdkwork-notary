@@ -49,7 +49,7 @@ test('PC packages use workspace protocol for internal dependencies', () => {
 });
 
 test('PC manifest describes the desktop client identity', () => {
-  const manifest = readJson('apps/sdkwork-notary-pc/sdkwork.app.config.json');
+  const manifest = readJson('apps/sdkwork-notary-pc/agent.app.config.json');
   assert.equal(manifest.app.key, 'sdkwork-notary-pc');
   assert.equal(manifest.runtime.family, 'pc');
   assert.equal(manifest.runtime.framework, 'react-pc');

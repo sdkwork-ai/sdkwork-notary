@@ -5,7 +5,7 @@
     "name": "SDKWork Notary",
     "repository": "sdkwork-ai/sdkwork-notary",
     "sourcePath": ".",
-    "configPath": "sdkwork.app.config.json"
+    "configPath": "agent.app.config.json"
   },
   "release": {
     "artifactPrefix": "sdkwork-notary",

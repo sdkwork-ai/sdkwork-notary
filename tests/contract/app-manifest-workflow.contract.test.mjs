@@ -13,18 +13,18 @@ function readJson(relativePath) {
 }
 
 test('root manifest describes the domain library identity', () => {
-  const manifest = readJson('sdkwork.app.config.json');
+  const manifest = readJson('agent.app.config.json');
   assert.equal(manifest.schemaVersion, 3);
-  assert.equal(manifest.kind, 'sdkwork.app');
+  assert.equal(manifest.kind, 'agent.app');
   assert.equal(manifest.app.key, 'sdkwork-notary');
   assert.equal(manifest.runtime.family, 'library');
   assert.equal(manifest.devApp.sourceRoot, 'apps/sdkwork-notary-h5');
 });
 
 test('H5 manifest describes the mobile client identity', () => {
-  const manifest = readJson('apps/sdkwork-notary-h5/sdkwork.app.config.json');
+  const manifest = readJson('apps/sdkwork-notary-h5/agent.app.config.json');
   assert.equal(manifest.schemaVersion, 3);
-  assert.equal(manifest.kind, 'sdkwork.app');
+  assert.equal(manifest.kind, 'agent.app');
   assert.equal(manifest.app.key, 'sdkwork-notary-h5');
   assert.equal(manifest.runtime.family, 'mobile');
   assert.equal(manifest.runtime.framework, 'react-h5');
@@ -34,7 +34,7 @@ test('H5 manifest describes the mobile client identity', () => {
 
 test('workflow config points at the root manifest and declares topology dependency', () => {
   const workflow = readJson('sdkwork.workflow.json');
-  assert.equal(workflow.app.configPath, 'sdkwork.app.config.json');
+  assert.equal(workflow.app.configPath, 'agent.app.config.json');
   const dependencyIds = new Set((workflow.dependencies ?? []).map((dependency) => dependency.id));
   assert.equal(dependencyIds.has('sdkwork-app-topology'), true);
 });
