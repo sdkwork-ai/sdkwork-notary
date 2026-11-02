@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "kind": "sdkwork.client-env-materialization",
+  "application": "sdkwork-notary",
+  "command": "pnpm workflow:materialize-client-env",
+  "deploymentConfig": "sdkwork.deployment.config.json",
+  "sourceIdentity": {
+    "deploymentProfileKeys": [
+      "SDKWORK_NOTARY_DEPLOYMENT_PROFILE",
+      "SDKWORK_DEPLOYMENT_PROFILE"
+    ],
+    "environmentKeys": [
+      "SDKWORK_NOTARY_ENVIRONMENT",
+      "SDKWORK_ENVIRONMENT"
+    ],
+    "profileIdKeys": [
+      "SDKWORK_NOTARY_PROFILE_ID",
+      "SDKWORK_PROFILE_ID"
+    ]
+  },
+  "profiles": [
+    "standalone.development",
+    "standalone.test",
+    "standalone.staging",
+    "standalone.demo",
+    "standalone.production",
+    "cloud.development",
+    "cloud.test",
+    "cloud.staging",
+    "cloud.demo",
+    "cloud.production"
+  ],
+  "surfaces": [
+    {
+      "id": "sdkwork-notary-h5",
+      "root": "apps/sdkwork-notary-h5",
+      "format": "vite",
+      "runtimeTarget": "browser",
+      "includePrefixes": [],
+      "includeKeys": [],
+      "bindings": {
+        "VITE_SDKWORK_NOTARY_APPLICATION_PUBLIC_HTTP_URL": {
+          "sources": [
+            "SDKWORK_NOTARY_APPLICATION_PUBLIC_HTTP_URL"
+          ],
+          "required": false
+        },
+        "VITE_SDKWORK_NOTARY_PLATFORM_API_GATEWAY_HTTP_URL": {
+          "sources": [
+            "SDKWORK_NOTARY_PLATFORM_API_GATEWAY_HTTP_URL"
+          ],
+          "required": false
+        },
+        "VITE_SDKWORK_NOTARY_APPLICATION_BACKEND_HTTP_URL": {
+          "sources": [
+            "SDKWORK_NOTARY_APPLICATION_BACKEND_HTTP_URL"
+          ],
+          "required": false
+        },
+        "VITE_SDKWORK_CORS_ALLOWED_ORIGINS": {
+          "sources": [
+            "SDKWORK_CORS_ALLOWED_ORIGINS"
+          ],
+          "required": false
+        }
+      },
+      "constants": {
+        "VITE_SDKWORK_APPLICATION_CODE": "notary",
+        "VITE_SDKWORK_SURFACE": "h5"
+      },
+      "requiredOutputKeys": [
+        "VITE_SDKWORK_ENVIRONMENT",
+        "VITE_SDKWORK_DEPLOYMENT_PROFILE",
+        "VITE_SDKWORK_PROFILE_ID",
+        "VITE_SDKWORK_RUNTIME_TARGET"
+      ]
+    },
+    {
+      "id": "sdkwork-notary-pc",
+      "root": "apps/sdkwork-notary-pc",
+      "format": "vite",
+      "runtimeTarget": "browser",
+      "includePrefixes": [],
+      "includeKeys": [],
+      "bindings": {
+        "VITE_SDKWORK_NOTARY_APPLICATION_PUBLIC_HTTP_URL": {
+          "sources": [
+            "SDKWORK_NOTARY_APPLICATION_PUBLIC_HTTP_URL"
+          ],
+          "required": false
+        },
+        "VITE_SDKWORK_NOTARY_PLATFORM_API_GATEWAY_HTTP_URL": {
+          "sources": [
+            "SDKWORK_NOTARY_PLATFORM_API_GATEWAY_HTTP_URL"
+          ],
+          "required": false
+        },
+        "VITE_SDKWORK_NOTARY_APPLICATION_BACKEND_HTTP_URL": {
+          "sources": [
+            "SDKWORK_NOTARY_APPLICATION_BACKEND_HTTP_URL"
+          ],
+          "required": false
+        },
+        "VITE_SDKWORK_CORS_ALLOWED_ORIGINS": {
+          "sources": [
+            "SDKWORK_CORS_ALLOWED_ORIGINS"
+          ],
+          "required": false
+        }
+      },
+      "constants": {
+        "VITE_SDKWORK_APPLICATION_CODE": "notary",
+        "VITE_SDKWORK_SURFACE": "pc"
+      },
+      "requiredOutputKeys": [
+        "VITE_SDKWORK_ENVIRONMENT",
+        "VITE_SDKWORK_DEPLOYMENT_PROFILE",
+        "VITE_SDKWORK_PROFILE_ID",
+        "VITE_SDKWORK_RUNTIME_TARGET"
+      ]
+    }
+  ]
+}
