@@ -132,7 +132,7 @@ impl PostgresNotaryCaseRepository {
             SELECT organization_id, drive_space_id, drive_space_type, status, updated_at, id
             FROM notary_organization_profile
             WHERE tenant_id = $1
-              AND ($2 IS NULL OR organization_id = $2)
+              AND organization_id = $2
               AND (
                 $3 IS NULL
                 OR updated_at < $3

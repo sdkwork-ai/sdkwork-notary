@@ -795,8 +795,17 @@ pub async fn handle_notary_backend_operation(
             Ok(organization_profile_to_value(&profile, context))
         }
         "notary.organizationProfiles.list" => {
-            let organization_id = string_field(&body, &["organizationId", "organization_id"])
-                .or_else(|| context.organization_id.clone());
+            // `API_SPEC.md` §10.4: the organization scope of a list is the
+            // verified session scope, never a request field. A body
+            // `organizationId` is only a target identifier and must match that
+            // scope; the SQL predicate always binds the resolved scope.
+            if let Some(requested) = string_field(&body, &["organizationId", "organization_id"]) {
+                ensure_organization_scope(context, &requested)?;
+            }
+            let organization_id = context
+                .organization_id
+                .clone()
+                .unwrap_or_else(|| "0".to_owned());
             let page_size = page_size_field(
                 &body,
                 &["pageSize", "page_size"],
@@ -805,7 +814,7 @@ pub async fn handle_notary_backend_operation(
             let page = ports
                 .repository
                 .list_organization_profiles(
-                    organization_id.as_deref(),
+                    Some(organization_id.as_str()),
                     page_size,
                     string_field(&body, &["cursor"]).as_deref(),
                 )
