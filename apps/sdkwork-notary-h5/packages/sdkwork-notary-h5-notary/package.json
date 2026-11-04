@@ -29,6 +29,9 @@
     "react-router": ">=7.0.0",
     "react-signature-canvas": ">=1.0.0"
   },
+  "devDependencies": {
+    "@types/react-signature-canvas": "catalog:"
+  },
   "sdkwork": {
     "workspace": "sdkwork-notary",
     "product": "sdkwork-notary",
