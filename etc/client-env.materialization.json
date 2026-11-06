@@ -131,13 +131,7 @@
         "tenantId": "100001",
         "organizationId": "0",
         "permissionScope": [
-          "iam.users.read",
-          "iam.organizations.read",
-          "iam.roles.read",
-          "iam.permissions.read",
-          "notary.matters.management.read",
-          "notary.matters.create",
-          "notary.matters.update"
+          "iam:self"
         ]
       }
     }

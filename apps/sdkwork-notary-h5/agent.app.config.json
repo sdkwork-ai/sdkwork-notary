@@ -26,9 +26,12 @@
     "ownerMode": "tenant",
     "grantMode": "current",
     "platform": "H5",
-    "appId": null,
+    "appId": "sdkwork-notary-h5",
     "organizationId": "0",
-    "tenantId": "100001"
+    "tenantId": "100001",
+    "accessTokenPermissionScope": [
+      "iam:self"
+    ]
   },
   "runtime": {
     "family": "mobile",
