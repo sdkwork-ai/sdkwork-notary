@@ -55,7 +55,7 @@ use sdkwork_database_sqlx::DatabasePool;
 use sdkwork_merchandise_repository_sqlx::PostgresCommerceCatalogStore;
 use sdkwork_merchandise_service::{
     CategoryListQuery, CategoryRecord, CreateCategoryCommand, CreateProductSkuCommand,
-    CreateProductSpuCommand, FulfillmentType, GuardedWrite, InventoryTrackingMode,
+    CreateProductSpuCommand, FulfillmentType, GuardedWrite, InventoryPolicy, InventoryTrackingMode,
     ProductSkuListQuery, ProductSkuRetrieveQuery, ProductSpuListQuery, ProductSpuRetrieveQuery,
     ProductStatus, ProductType, SkuRecord, SpuRecord, StaleVersion, UpdateProductSkuCommand,
     UpdateProductSpuCommand,
@@ -191,10 +191,17 @@ impl CommerceOrderPort {
         }
 
         let command = CreateCategoryCommand {
+            // The notary runtime writes on behalf of the matter's owner: it is the principal whose
+            // catalog this row belongs to, and `created_by` records them.
+            actor: self.owner_user_id.clone(),
             tenant_id: self.tenant_id.clone(),
             organization_id: NOTARY_CATEGORY_ORGANIZATION_ID.to_owned(),
             category_no: NOTARY_CATEGORY_NO.to_owned(),
             parent_id: None,
+            // The notary category is filed in the merchandising tree only; the tenant's
+            // back-office tree is the console's own arrangement and this module must not
+            // claim a position in it.
+            back_parent_id: None,
             name: NOTARY_CATEGORY_NAME.to_owned(),
             sort_order: 0,
         };
@@ -456,6 +463,7 @@ impl CommerceOrderPort {
         require_applied(
             self.catalog
                 .update_sku(&UpdateProductSkuCommand {
+                    actor: self.owner_user_id.clone(),
                     tenant_id: self.tenant_id.clone(),
                     sku_id: sku.id.to_string(),
                     name: None,
@@ -465,9 +473,16 @@ impl CommerceOrderPort {
                     // touching. `None` here means "keep", not "clear".
                     sale_price_minor: None,
                     list_price_minor: None,
+                    // Cost, barcode, weight, and the stock-out policy are fixed-semantics columns of
+                    // the catalog's sellable row; a notarization carries none of them and a
+                    // status-only edit states nothing about them, so the stored values stand.
+                    cost_price_minor: None,
+                    barcode: None,
+                    weight_gram: None,
                     currency_code: None,
                     fulfillment_type: None,
                     inventory_tracking: None,
+                    inventory_policy: None,
                     status: Some(status),
                     attribute_value_ids: None,
                     metadata: None,
@@ -501,12 +516,20 @@ impl CommerceOrderPort {
         require_applied(
             self.catalog
                 .update_spu(&UpdateProductSpuCommand {
+                    actor: self.owner_user_id.clone(),
                     tenant_id: self.tenant_id.clone(),
                     spu_id: spu.id.to_string(),
                     title: None,
                     subtitle: None,
                     description: None,
                     category_id: None,
+                    // The fixed-semantics product columns are not part of a notary matter, so a
+                    // projection-only edit keeps whatever the row already holds.
+                    model_no: None,
+                    barcode: None,
+                    weight_gram: None,
+                    volume_ml: None,
+                    tax_class_code: None,
                     status: Some(status),
                     expected_version: spu.version,
                 })
@@ -794,6 +817,7 @@ impl CommercePort for CommerceOrderPort {
         let sku_no = derived_business_key("sku", &self.tenant_id, &command.idempotency_key);
 
         let create_spu = CreateProductSpuCommand {
+            actor: self.owner_user_id.clone(),
             tenant_id: self.tenant_id.clone(),
             organization_id: organization_id.clone(),
             spu_no: spu_no.clone(),
@@ -802,6 +826,14 @@ impl CommercePort for CommerceOrderPort {
             description: command.description.clone(),
             product_type: NOTARY_PRODUCT_TYPE,
             category_id,
+            // A notarization ships nothing, so it has no model number, barcode, ship weight,
+            // volume, or tax class; those columns stay null rather than being filled with a
+            // stand-in value the catalog would then treat as real.
+            model_no: None,
+            barcode: None,
+            weight_gram: None,
+            volume_ml: None,
+            tax_class_code: None,
         };
         let spu = match self.catalog.create_spu(&create_spu).await {
             Ok(created) => created,
@@ -818,6 +850,7 @@ impl CommercePort for CommerceOrderPort {
         };
 
         let create_sku = CreateProductSkuCommand {
+            actor: self.owner_user_id.clone(),
             tenant_id: self.tenant_id.clone(),
             organization_id,
             spu_id: spu.id.to_string(),
@@ -826,9 +859,16 @@ impl CommercePort for CommerceOrderPort {
             title: command.title.clone(),
             sale_price_minor,
             list_price_minor,
+            // A service is not acquired as stock, so there is no cost, barcode, or ship weight to
+            // record, and the policy is `deny` because an untracked SKU may not state `backorder`
+            // (`ck_commerce_product_sku_policy_requires_tracking`).
+            cost_price_minor: None,
+            barcode: None,
+            weight_gram: None,
             currency_code: command.currency_code.clone(),
             fulfillment_type: NOTARY_FULFILLMENT_TYPE,
             inventory_tracking: NOTARY_INVENTORY_TRACKING,
+            inventory_policy: InventoryPolicy::Deny,
             // The notary category declares no sales axis, so a matter has the empty combination and
             // `variant_signature` falls back to `sku_no` — which is what keeps
             // `uk_commerce_product_sku_variant` meaningful without inventing an axis.
@@ -931,6 +971,7 @@ impl CommercePort for CommerceOrderPort {
                 let written = self
                     .catalog
                     .update_sku(&UpdateProductSkuCommand {
+                        actor: self.owner_user_id.clone(),
                         tenant_id: self.tenant_id.clone(),
                         sku_id: current.id.to_string(),
                         // The variant's own name and title were written once at creation; they are
@@ -940,9 +981,15 @@ impl CommercePort for CommerceOrderPort {
                         title: command.title.clone(),
                         sale_price_minor: Some(sale_price_minor),
                         list_price_minor: reference_price,
+                        // A notary matter's edit has no cost, barcode, weight, or stock-out policy
+                        // to state; `None` keeps what the row already holds.
+                        cost_price_minor: None,
+                        barcode: None,
+                        weight_gram: None,
                         currency_code: command.currency_code.clone(),
                         fulfillment_type: None,
                         inventory_tracking: None,
+                        inventory_policy: None,
                         status,
                         attribute_value_ids: None,
                         metadata: command.spec.clone(),
@@ -971,6 +1018,7 @@ impl CommercePort for CommerceOrderPort {
                 let written = self
                     .catalog
                     .update_spu(&UpdateProductSpuCommand {
+                        actor: self.owner_user_id.clone(),
                         tenant_id: self.tenant_id.clone(),
                         spu_id: spu.id.to_string(),
                         title: command.title.clone(),
@@ -980,6 +1028,13 @@ impl CommercePort for CommerceOrderPort {
                         // it is passed through rather than flattened.
                         description: command.description.clone(),
                         category_id: None,
+                        // The fixed-semantics product columns are not part of a notary matter, so
+                        // this edit keeps whatever the row already holds.
+                        model_no: None,
+                        barcode: None,
+                        weight_gram: None,
+                        volume_ml: None,
+                        tax_class_code: None,
                         status: Some(projected),
                         expected_version: spu.version,
                     })
