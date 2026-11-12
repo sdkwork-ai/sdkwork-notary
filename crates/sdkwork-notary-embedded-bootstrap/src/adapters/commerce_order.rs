@@ -191,6 +191,7 @@ impl CommerceOrderPort {
         }
 
         let command = CreateCategoryCommand {
+            locale: None,
             // The notary runtime writes on behalf of the matter's owner: it is the principal whose
             // catalog this row belongs to, and `created_by` records them.
             actor: self.owner_user_id.clone(),
@@ -256,6 +257,7 @@ impl CommerceOrderPort {
                     organization_id: None,
                     parent_id: None,
                     status: None,
+                    locale: None,
                     page: Some(page),
                     page_size: Some(200),
                 })
@@ -300,9 +302,11 @@ impl CommerceOrderPort {
                 organization_id: Some(organization_id.to_owned()),
                 q: Some(spu_no.to_owned()),
                 category_id: Some(self.notary_category_id().await?),
+                brand_id: None,
                 product_type: Some(NOTARY_PRODUCT_TYPE.as_storage_str().to_owned()),
                 status: None,
                 sort: None,
+                locale: None,
                 page: Some(1),
                 page_size: Some(MATTER_PROBE_PAGE_SIZE),
             })
@@ -327,6 +331,7 @@ impl CommerceOrderPort {
                 spu_id: Some(spu_id.to_string()),
                 attribute_value_id: None,
                 status: None,
+                locale: None,
                 page: Some(1),
                 page_size: Some(MATTER_PROBE_PAGE_SIZE),
             })
@@ -383,6 +388,7 @@ impl CommerceOrderPort {
                 spu_id: Some(spu.id.to_string()),
                 attribute_value_id: None,
                 status: None,
+                locale: None,
                 page: Some(1),
                 page_size: Some(MATTER_PROBE_PAGE_SIZE),
             })
@@ -414,9 +420,11 @@ impl CommerceOrderPort {
             organization_id: query.organization_id.clone(),
             q: query.search_term.clone(),
             category_id: Some(category_id.to_owned()),
+            brand_id: None,
             product_type: Some(NOTARY_PRODUCT_TYPE.as_storage_str().to_owned()),
             status: query.status.clone(),
             sort: None,
+            locale: None,
             page: Some(page),
             page_size: Some(page_size),
         }
@@ -466,6 +474,7 @@ impl CommerceOrderPort {
                     actor: self.owner_user_id.clone(),
                     tenant_id: self.tenant_id.clone(),
                     sku_id: sku.id.to_string(),
+                    locale: None,
                     name: None,
                     title: None,
                     // The repository restates price, currency, and scale from the row it locks inside
@@ -479,6 +488,11 @@ impl CommerceOrderPort {
                     cost_price_minor: None,
                     barcode: None,
                     weight_gram: None,
+                    min_order_quantity: None,
+                    max_order_quantity: None,
+                    step_quantity: None,
+                    package_unit: None,
+                    units_per_package: None,
                     currency_code: None,
                     fulfillment_type: None,
                     inventory_tracking: None,
@@ -519,10 +533,12 @@ impl CommerceOrderPort {
                     actor: self.owner_user_id.clone(),
                     tenant_id: self.tenant_id.clone(),
                     spu_id: spu.id.to_string(),
+                    locale: None,
                     title: None,
                     subtitle: None,
                     description: None,
                     category_id: None,
+                    brand_id: None,
                     // The fixed-semantics product columns are not part of a notary matter, so a
                     // projection-only edit keeps whatever the row already holds.
                     model_no: None,
@@ -821,11 +837,13 @@ impl CommercePort for CommerceOrderPort {
             tenant_id: self.tenant_id.clone(),
             organization_id: organization_id.clone(),
             spu_no: spu_no.clone(),
+            locale: None,
             title: command.title.clone(),
             subtitle: None,
             description: command.description.clone(),
             product_type: NOTARY_PRODUCT_TYPE,
             category_id,
+            brand_id: None,
             // A notarization ships nothing, so it has no model number, barcode, ship weight,
             // volume, or tax class; those columns stay null rather than being filled with a
             // stand-in value the catalog would then treat as real.
@@ -855,6 +873,7 @@ impl CommercePort for CommerceOrderPort {
             organization_id,
             spu_id: spu.id.to_string(),
             sku_no: sku_no.clone(),
+            locale: None,
             name: command.title.clone(),
             title: command.title.clone(),
             sale_price_minor,
@@ -865,6 +884,13 @@ impl CommercePort for CommerceOrderPort {
             cost_price_minor: None,
             barcode: None,
             weight_gram: None,
+            // A service has no trade-constraint facts; the catalog defaults
+            // (min 1, step 1, no cap, no package) stand.
+            min_order_quantity: None,
+            max_order_quantity: None,
+            step_quantity: None,
+            package_unit: None,
+            units_per_package: None,
             currency_code: command.currency_code.clone(),
             fulfillment_type: NOTARY_FULFILLMENT_TYPE,
             inventory_tracking: NOTARY_INVENTORY_TRACKING,
@@ -974,6 +1000,7 @@ impl CommercePort for CommerceOrderPort {
                         actor: self.owner_user_id.clone(),
                         tenant_id: self.tenant_id.clone(),
                         sku_id: current.id.to_string(),
+                        locale: None,
                         // The variant's own name and title were written once at creation; they are
                         // restated here only so that they cannot drift from the product's, because a
                         // console showing two different names for one matter is worse than a copy.
@@ -986,6 +1013,11 @@ impl CommercePort for CommerceOrderPort {
                         cost_price_minor: None,
                         barcode: None,
                         weight_gram: None,
+                        min_order_quantity: None,
+                        max_order_quantity: None,
+                        step_quantity: None,
+                        package_unit: None,
+                        units_per_package: None,
                         currency_code: command.currency_code.clone(),
                         fulfillment_type: None,
                         inventory_tracking: None,
@@ -1021,6 +1053,7 @@ impl CommercePort for CommerceOrderPort {
                         actor: self.owner_user_id.clone(),
                         tenant_id: self.tenant_id.clone(),
                         spu_id: spu.id.to_string(),
+                        locale: None,
                         title: command.title.clone(),
                         subtitle: None,
                         // `description` is one of the catalog's three-state fields — `None` preserves,
@@ -1028,6 +1061,7 @@ impl CommercePort for CommerceOrderPort {
                         // it is passed through rather than flattened.
                         description: command.description.clone(),
                         category_id: None,
+                        brand_id: None,
                         // The fixed-semantics product columns are not part of a notary matter, so
                         // this edit keeps whatever the row already holds.
                         model_no: None,
