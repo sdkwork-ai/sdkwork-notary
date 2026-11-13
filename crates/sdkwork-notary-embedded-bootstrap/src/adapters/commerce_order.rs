@@ -348,6 +348,7 @@ impl CommerceOrderPort {
             .retrieve_spu(&ProductSpuRetrieveQuery {
                 tenant_id: self.tenant_id.clone(),
                 spu_id: spu_id.to_string(),
+                locale: None,
             })
             .await
             .map_err(map_commerce_error)?
@@ -366,6 +367,7 @@ impl CommerceOrderPort {
             .retrieve_sku(&ProductSkuRetrieveQuery {
                 tenant_id: self.tenant_id.clone(),
                 sku_id: sku_id.to_owned(),
+                locale: None,
             })
             .await
             .map_err(map_commerce_error)?
