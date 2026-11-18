@@ -85,7 +85,8 @@
     "_sdkwork:check": "pnpm run check:app-composition && pnpm test:topology-validate && pnpm db:validate && pnpm format:check && pnpm typecheck && node ../sdkwork-specs/tools/check-pnpm-script-standard.mjs --root . --application-code-prefix notary",
     "_sdkwork:verify": "pnpm.cmd check && pnpm.cmd test:topology-baggage && pnpm.cmd api:check && pnpm.cmd api:envelope:check && pnpm.cmd sdk:check && pnpm.cmd api:assembly:validate && pnpm.cmd test:contracts && pnpm.cmd test:rust && pnpm.cmd build:browser && pnpm.cmd build:desktop && pnpm run check:app-composition && pnpm.cmd check:cors-standard",
     "_sdkwork:clean": "cargo clean --target-dir target-codex-test",
-    "dev:standalone": "pnpm exec sdkwork-app dev --deployment-profile standalone"
+    "dev:standalone": "pnpm exec sdkwork-app dev --deployment-profile standalone",
+    "check:release-access-token:require-anchor": "node ../sdkwork-specs/tools/check-release-access-token-env.mjs --root . --require-anchor"
   },
   "exports": {
     ".": {
