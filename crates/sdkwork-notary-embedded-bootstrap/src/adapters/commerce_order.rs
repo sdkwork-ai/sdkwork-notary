@@ -260,6 +260,7 @@ impl CommerceOrderPort {
                     locale: None,
                     page: Some(page),
                     page_size: Some(200),
+                    root_only: false,
                 })
                 .await
                 .map_err(map_commerce_error)?;
